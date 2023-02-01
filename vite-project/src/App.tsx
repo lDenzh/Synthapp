@@ -1,9 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [message, setmessage] = useState(""); {/* Declearing State variable for message */}
+
+  useEffect(() => { {/* API call using fetch */}
+    fetch("http://localhost:8000/data")
+    .then(response => response.json())
+    .then(data => setmessage(data.message))
+    .catch(error => console.error(error))
+  }, []);
 
   return (
     <div className="App">
@@ -16,6 +24,7 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
+      <div>The message is: {message}</div> {/*Message from API call to backend*/}
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}

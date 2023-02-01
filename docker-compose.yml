@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  backend:
+    build: ./sanic-backend
+    ports:
+      - 8000:8000
+    networks:
+      - app-network
+
+  frontend:
+    build: ./vite-project
+    ports:
+      - 5173:5173
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
