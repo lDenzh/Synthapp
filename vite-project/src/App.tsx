@@ -7,7 +7,7 @@ function App() {
   const [message, setmessage] = useState(""); {/* Declearing State variable for message */}
 
   useEffect(() => { {/* API call using fetch */}
-    fetch("http://localhost:8000/data")
+    fetch("http://localhost:8000/data/")
     .then(response => response.json())
     .then(data => setmessage(data.message))
     .catch(error => console.error(error))
