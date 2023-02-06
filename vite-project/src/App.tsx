@@ -4,7 +4,7 @@ import './App.css'
 
 import axios from 'axios';
 
-async function getAPImessage() { {/* prøver å lage noe, men funker ikke */}
+async function getAPImessage() { 
   try {
     const response = await axios.get('http://localhost:8000/data');
     console.log(response);
