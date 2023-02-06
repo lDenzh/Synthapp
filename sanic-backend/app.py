@@ -4,6 +4,7 @@ from sanic import text
 from cors import add_cors_headers
 from options import setup_options
 
+
 app = Sanic("SynthApp")
 
 @app.get('/')
