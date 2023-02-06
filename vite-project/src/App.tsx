@@ -6,7 +6,7 @@ import axios from 'axios';
 
 async function getAPImessage() { {/* prøver å lage noe, men funker ikke */}
   try {
-    const response = await axios.get('sanic:8000/data');
+    const response = await axios.get('http://localhost:8000/data');
     console.log(response);
   }
   catch (error) {
