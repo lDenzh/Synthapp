@@ -12,8 +12,12 @@ async def hello(request):
     return text("Backend runs on localhost:8000")
 
 @app.route('/data')
-async def test(request):
+async def data(request):
     return json({"message": "Hello from the backend-boi!"})
+
+@app.route('/request', methods=['POST'])
+async def json_request(req):
+    return text("post method activate")
 
     
 # Add OPTIONS handlers to any route that is missing it
