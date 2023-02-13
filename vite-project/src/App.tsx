@@ -14,6 +14,22 @@ async function getAPImessage() {
   }
 }
 
+async function makePostRequest() {
+
+  let params = {
+      id: 6,
+      first_name: 'Fred',
+      last_name: 'Blair',
+      email: 'freddyb34@gmail.com'
+    }
+
+  let res = await axios.post('http://localhost:8000/users/', params);
+
+  console.log(res.data);
+  console.log("I was here")
+}
+
+
 function App() {
   const [count, setCount] = useState(0)
   getAPImessage();
@@ -29,7 +45,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={() => makePostRequest()}>
           count is {count}
         </button>
         <p>
