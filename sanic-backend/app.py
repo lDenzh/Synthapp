@@ -1,10 +1,10 @@
 from sanic import Sanic
-from sanic.response import json as JSONResponse
+from sanic.response import json 
 from sanic import text
 from cors import add_cors_headers
 from options import setup_options
 
-import json
+
 
 
 app = Sanic(__name__)
@@ -15,19 +15,15 @@ async def hello(request):
 
 @app.route('/data', methods=['GET'])
 async def data(request):
-    return JSONResponse({"message": "Hello from the backend-boi!"})
+    return json({"message": "Hello from the backend-boi!"})
 
-@app.route('/request', methods=['POST'])
+@app.post('/request')
 async def json_request(req):
     
-    json_print = json.loads(req)
-
-    print(json_print["id"] + '/n')
-    print(json_print["first_name"] + '/n')
-    print(json_print["last_name"] + '/n')
-    print(json_print["email"])
-    
-    return JSONResponse({"message": "post method activate"})
+    json_print = req.json
+    print(json_print)
+        
+    return json({"message": "post method activate"})
 
     
 # Add OPTIONS handlers to any route that is missing it
@@ -37,6 +33,6 @@ app.register_listener(setup_options, "before_server_start")
 app.register_middleware(add_cors_headers, "response")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    app.run(host="0.0.0.0", port=8000, debug=True)
 
     
