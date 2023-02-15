@@ -3,7 +3,6 @@ from sanic.response import json as JSONResponse
 from sanic import text
 from cors import add_cors_headers
 from options import setup_options
-import requests
 import json
 
 
