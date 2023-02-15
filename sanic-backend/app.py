@@ -3,21 +3,21 @@ from sanic.response import json as JSONResponse
 from sanic import text
 from cors import add_cors_headers
 from options import setup_options
-import requests
+
 import json
 
 
 app = Sanic(__name__)
 
-@app.get('/')
+@app.route('/', methods=['GET'])
 async def hello(request):
     return text("Backend runs on localhost:8000")
 
-@app.route('/data')
+@app.route('/data', methods=['GET'])
 async def data(request):
     return JSONResponse({"message": "Hello from the backend-boi!"})
 
-@app.route('/users/request', methods=['POST'])
+@app.route('/request', methods=['POST'])
 async def json_request(req):
     
     json_print = json.loads(req)
