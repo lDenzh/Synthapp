@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 
 async function getAPImessage() { 
   try {
@@ -13,28 +13,51 @@ async function getAPImessage() {
     console.log(error)
   }
 }
-
-
-async function makePostRequest() {
-
-  let params = {
-      id: 6,
-      first_name: 'Fred',
-      last_name: 'Blair',
-      email: 'freddyb34@gmail.com'
-    }
+async function get1APImessage() { 
   try {
-    let res = await axios.post('http://localhost:8000/users/request', params);
-    console.log(res.data);
+    const response = await axios.get('http://localhost:8000/');
+    console.log(response);
+  }
+  catch (error) {
+    console.log(error)
+  }
+}
+type CreateUserResponse = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+async function makePostRequest() {
+  try {
+    const{ data, status } = await axios.post<CreateUserResponse>(
+      'http://localhost:8000/request',
+      { id: '6', first_name: 'John', last_name: 'Smith', email: 'johnsmith@yahoo.com'},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      },
+    );
+
+    console.log(JSON.stringify(data, null, 4));
+    console.log(status);
+    return data;
+
   } catch (error){
-    console.log (error)
+    if (axios.isAxiosError(error)){
+      console.log('error message: ', error.message);
+      return error.message;
+    } else {
+      console.log('unexpected error: ', error);
+      return 'An unexpected error occured';
+    }
   }
 }
 
 
 function App() {
-  const [count, setCount] = useState(0)
-  getAPImessage();
   return (
     <div className="App">
       <div>
@@ -48,7 +71,13 @@ function App() {
       <h1>Vite + React</h1>
       <div className="card">
         <button onClick={() => makePostRequest()}>
-          count is {count}
+          post "/request"
+        </button>
+        <button onClick={() => getAPImessage()}>
+          get "/data" 
+        </button>
+        <button onClick={() => get1APImessage()}>
+          get "/" 
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
