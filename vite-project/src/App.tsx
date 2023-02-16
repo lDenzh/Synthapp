@@ -70,8 +70,9 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
+        
         <button onClick={() => makePostRequest()}>
-          post "/request"
+          post "/json"
         </button>
         <button onClick={() => getAPImessage()}>
           get "/data" 

@@ -4,9 +4,6 @@ from sanic import text #vet ikke om trenger?
 from sanic_ext import Extend, cors
 from sanic_cors.extension import CORS
 
-
-
-
 app = Sanic(__name__)
 
 CORS_OPTIONS = {"resources": r'/*', "origins": "*", "methods": ["GET", "POST", "HEAD", "OPTIONS"]}
@@ -26,16 +23,6 @@ async def data(request):
 @cors(allow_methods="POST")
 async def post_json(request):
     return json({ "received": True, "message": request.json, })
-
-@app.post('/request')
-async def json_request(req):
-    
-    json_print = req.json
-    print(json_print)
-        
-    return json({"message": "post method activate"})
-
-    
 
 
 if __name__ == "__main__":
