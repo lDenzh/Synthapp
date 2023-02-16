@@ -1,21 +1,31 @@
 from sanic import Sanic
-from sanic.response import json 
-from sanic import text
-from cors import add_cors_headers
-from options import setup_options
+from sanic.response import json, text 
+from sanic import text #vet ikke om trenger?
+from sanic_ext import Extend, cors
+from sanic_cors.extension import CORS
 
 
 
 
 app = Sanic(__name__)
 
-@app.route('/', methods=['GET'])
+CORS_OPTIONS = {"resources": r'/*', "origins": "*", "methods": ["GET", "POST", "HEAD", "OPTIONS"]}
+# Disable sanic-ext built-in CORS, and add the Sanic-CORS plugin
+Extend(app, extensions=[CORS], config={"CORS": False, "CORS_OPTIONS": CORS_OPTIONS})
+
+@app.route('/test', methods=['GET'])
 async def hello(request):
     return text("Backend runs on localhost:8000")
 
 @app.route('/data', methods=['GET'])
 async def data(request):
     return json({"message": "Hello from the backend-boi!"})
+
+
+@app.route('/json', methods=['POST'])
+@cors(allow_methods="POST")
+async def post_json(request):
+    return json({ "received": True, "message": request.json, })
 
 @app.post('/request')
 async def json_request(req):
@@ -26,11 +36,7 @@ async def json_request(req):
     return json({"message": "post method activate"})
 
     
-# Add OPTIONS handlers to any route that is missing it
-app.register_listener(setup_options, "before_server_start")
 
-# Fill in CORS headers
-app.register_middleware(add_cors_headers, "response")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)

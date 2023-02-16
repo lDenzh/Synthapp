@@ -8,7 +8,7 @@ WORKDIR /sanic
 COPY . .
 
 RUN pip install -r requirements.txt
-
+RUN pip install -U sanic-cors
 
 EXPOSE 8000
 

@@ -15,7 +15,7 @@ async function getAPImessage() {
 }
 async function get1APImessage() { 
   try {
-    const response = await axios.get('http://localhost:8000/');
+    const response = await axios.get('http://localhost:8000/test');
     console.log(response);
   }
   catch (error) {
@@ -31,7 +31,7 @@ type CreateUserResponse = {
 async function makePostRequest() {
   try {
     const{ data, status } = await axios.post<CreateUserResponse>(
-      'http://localhost:8000/request',
+      'http://localhost:8000/json',
       { id: '6', first_name: 'John', last_name: 'Smith', email: 'johnsmith@yahoo.com'},
       {
         headers: {
