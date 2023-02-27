@@ -5,6 +5,21 @@
   text-align: center;
 }
 
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 360px;
+  border: 4px solid rgb(117, 112, 112);
+  color: #475467;
+}
+
+.button {
+  padding: 12px;
+  font-size: medium;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
