@@ -1,9 +1,10 @@
 import React, { useRef, useState } from "react";
 import './App.css'
-import pdftobase64 from "pdf-to-base64"
+import axios, { isAxiosError } from 'axios';
+
 
 const DragDropFiles = () => {
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState();
     const inputRef = useRef();
 
     const handleDrag = (event) => {
@@ -15,18 +16,28 @@ const DragDropFiles = () => {
         setFile(event.dataTransfer.files)
     };
 
+    
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file[0]);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    async function Postman() {
+        const myPDF = await toBase64(file)
+
+        const { data } = await axios.post("http://localhost:8000/json", myPDF, {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+              },
+        })
+        console.log(data);
+    }
+
     const handleUpload = () => {
-        pdftobase64(file)
-            .then(
-                (response) => {
-                    console.log(response); //Logger en base64 encoded string av pdf-en
-                }
-            )
-            .catch(
-                (error) => {
-                    console.log(error);
-                }
-            )
+        Postman();
     }
 
     if (file) return (
