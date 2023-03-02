@@ -27,7 +27,7 @@ const DragDropFiles = () => {
     async function Postman() {
         const myPDF = await toBase64(file)
 
-        const { data } = await axios.post("http://localhost:8000/json", myPDF, {
+        const { data } = await axios.post("http://localhost:8000/runSynth", myPDF, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'

@@ -31,7 +31,7 @@ type CreateUserResponse = {
 async function makePostRequest() {
   try {
     const{ data, status } = await axios.post<CreateUserResponse>(
-      'http://localhost:8000/json',
+      'http://localhost:8000/posty',
       { id: '6', first_name: 'John', last_name: 'Smith', email: 'johnsmith@yahoo.com'},
       {
         headers: {
@@ -72,7 +72,7 @@ function App() {
       <div className="card">
         
         <button onClick={() => makePostRequest()}>
-          post "/json"
+          post "/posty"
         </button>
         <button onClick={() => getAPImessage()}>
           get "/data" 
