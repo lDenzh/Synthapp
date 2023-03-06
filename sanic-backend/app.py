@@ -6,8 +6,9 @@ from sanic_cors.extension import CORS
 
 import json
 import tempfile
+import json
 from pathlib import Path
-from base64 import b64decode
+from base64 import b64decode, b64encode
 from synthetic.pdf.parser import parse_pdf
 from synthetic.pdf.synthesizer import BasicSynthesizer
 import os
@@ -40,33 +41,22 @@ async def post_json(request):
 @cors(allow_methods="POST")
 async def post_runSynth(request):
 
-    with tempfile.TemporaryDirectory(dir='.', suffix='TemporaryDirectory_') as tmpdir:
-        pathFlattened = f'{tmpdir}+/tmpdirFlattened'
-        os.mkdir(pathFlattened)
-        with open(f'{tmpdir}+/dataPDF.pdf', 'rw') as datafilePDF, open(f'{tmpdir}+/dataGT.json', 'rw') as datafileGT:
-            #Del opp pdf-data og GT-data
-            jsonData = request.json
-            datafilePDF.write(b64decode(jsonData["PDF"]))
-            datafileGT.write(jsonData["GT"])
-            pathPDF = tmpdir + '/dataPDF.pdf'
-            pathGT = tmpdir + '/dataGT.json'
-            status = synthesize_document(pathPDF,pathGT,tmpdir,pathFlattened)
+    with tempfile.TemporaryDirectory(prefix='TemporaryDirectory_') as tmpdir:
+        path_flattened = f'{tmpdir}/tmpdirFlattened'
+        os.mkdir(path_flattened)
+        json_data = json.loads(request.json)
+        pdf_path = Path(f'{tmpdir}/dataPDF.pdf')
+        GT_path = Path(f'{tmpdir}/dataGT.json')
+        pdf_path.write_bytes(b64decode(json_data["PDF"]))
+        GT_path.write_bytes(json_data["GT"])
+            
+        status = synthesize_document(pdf_path,GT_path,tmpdir,path_flattened)
 
+        return json({ "received": True, "message": "its all gooooo"})
     
-    #tempdir
-    #create file in tempdir 4
-    #decode 1
-    #store in tempfile 5
-    #Run synthesizer 2
-    #encode 3
-    #return
     
 
-    return json({"message":"its all goood"})
-
-
-async def synthesize_document(pdf_path:Path, ground_truth:Path, dest_dir:Path, temp_dir:Path):
-    
+def synthesize_document(pdf_path:Path, ground_truth:Path, dest_dir:Path, temp_dir:Path):
 
     status = parse_pdf(
         name='parseX',
