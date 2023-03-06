@@ -5,7 +5,7 @@ from sanic_ext import Extend, cors
 from sanic_cors.extension import CORS
 
 import tempfile
-from json import dumps
+import json
 from pathlib import Path
 from base64 import b64decode
 from synthetic.pdf.parser import parse_pdf
@@ -60,7 +60,7 @@ async def post_runSynth(request):
     #return
     
 
-    return 0
+    return json({"message":"its all goood"})
 
 
 async def synthesize_document(pdf_path:Path, ground_truth:Path, dest_dir:Path, temp_dir:Path):
@@ -78,7 +78,7 @@ async def synthesize_document(pdf_path:Path, ground_truth:Path, dest_dir:Path, t
         max_pages=3
     )
 
-    return status, dest_dir
+    return status
 
 
 
