@@ -33,7 +33,7 @@ async def data(request):
 @cors(allow_methods="POST")
 async def post_json(request):
     jsonmsg = json.loads(request.json)
-    tester = jsonmsg["PDF"]
+    tester = jsonmsg["PDF:"]
     return json({ "received": True, "message": tester })
 
 
