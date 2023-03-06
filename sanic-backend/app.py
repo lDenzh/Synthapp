@@ -39,13 +39,16 @@ async def post_json(request):
 async def post_runSynth(request):
 
     with tempfile.TemporaryDirectory(dir='.', suffix='TemporaryDirectory_') as tmpdir:
-        #with tempfile.TemporaryDirectory(dir='tmpdirOuter' suffix='TempFlattenedDir') as tmpdirFlattened:
+        pathFlattened = f'{tmpdir}+/tmpdirFlattened'
+        os.mkdir(pathFlattened)
         with open(f'{tmpdir}+/dataPDF.pdf', 'rw') as datafilePDF, open(f'{tmpdir}+/dataGT.json', 'rw') as datafileGT:
             #Del opp pdf-data og GT-data
-
-            datafilePDF.write()
-            datafileGT.write()
-            status = synthesize_document(...)
+            jsonData = request.json()
+            datafilePDF.write(b64decode(jsonData["pdf"]))
+            datafileGT.write(jsonData["ground_truth"])
+            pathPDF = tmpdir + '/dataPDF.pdf'
+            pathGT = tmpdir + '/dataGT.json'
+            status = synthesize_document(pathPDF,pathGT,tmpdir,pathFlattened)
 
     
     #tempdir
