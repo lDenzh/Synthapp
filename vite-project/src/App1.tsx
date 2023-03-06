@@ -25,10 +25,16 @@ const DragDropFiles = () => {
     });
 
     async function Postman() {
-        const myPDF = await toBase64(file)
-        
-        const message = "{PDF:" + myPDF + "}" + "{GT:" + updated +"}"
-        const { data } = await axios.post("http://localhost:8000/posty", message, {
+        let myPDF = await toBase64(file)
+        let myArray = myPDF.split(",")
+        let word = myArray[1];
+
+        const payload = {
+            PDF: word,
+            GT: updated
+        };
+
+        const { data } = await axios.post("http://localhost:8000/posty", payload, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'

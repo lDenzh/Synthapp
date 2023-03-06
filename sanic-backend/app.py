@@ -1,5 +1,5 @@
 from sanic import Sanic
-from sanic.response import json, text 
+from sanic.response import json as sanicjson, text 
 from sanic import text #vet ikke om trenger?
 from sanic_ext import Extend, cors
 from sanic_cors.extension import CORS
@@ -32,9 +32,9 @@ async def data(request):
 @app.route('/posty', methods=['POST'])
 @cors(allow_methods="POST")
 async def post_json(request):
-    jsonmsg = json.loads(request.json)
-    tester = jsonmsg["PDF:"]
-    return json({ "received": True, "message": tester })
+    jsonmsg = json.loads(request)
+    tester = jsonmsg["GT"]
+    return sanicjson({ "received": True, "message": tester })
 
 
 @app.route('/runSynth', methods=['POST'])
