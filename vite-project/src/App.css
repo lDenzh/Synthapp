@@ -11,16 +11,25 @@
   align-items: center;
   justify-content: center;
   height: 360px;
-  border: 4px solid rgb(117, 112, 112);
+  border: 4px dashed rgb(117, 112, 112);
+  border-radius: 20px;
   color: #475467;
 }
 .input-container {
-  height: max-content;
-  
+  width: 500px;
+  height: 500px;
 }
 
 #inputfield {
-  height: 500px;
+  width: 100%;
+  height: 100%;
+  resize: vertical;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #475467;
+  resize: none;
 
 }
 .button {

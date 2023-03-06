@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import DragDropFiles from './App1'
-import GTinput from './GTinput'
 import './index.css'
 
 
