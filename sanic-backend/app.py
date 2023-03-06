@@ -4,6 +4,7 @@ from sanic import text #vet ikke om trenger?
 from sanic_ext import Extend, cors
 from sanic_cors.extension import CORS
 
+import json
 import tempfile
 from pathlib import Path
 from base64 import b64decode
@@ -30,7 +31,9 @@ async def data(request):
 @app.route('/posty', methods=['POST'])
 @cors(allow_methods="POST")
 async def post_json(request):
-    return json({ "received": True, "message": request.json })
+    jsonmsg = json.loads(request.json)
+    tester = jsonmsg["PDF"]
+    return json({ "received": True, "message": tester })
 
 
 @app.route('/runSynth', methods=['POST'])
