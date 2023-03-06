@@ -5,7 +5,6 @@ from sanic_ext import Extend, cors
 from sanic_cors.extension import CORS
 
 import tempfile
-import json
 from pathlib import Path
 from base64 import b64decode
 from synthetic.pdf.parser import parse_pdf
@@ -31,7 +30,7 @@ async def data(request):
 @app.route('/posty', methods=['POST'])
 @cors(allow_methods="POST")
 async def post_json(request):
-    return json({ "received": True, "message": request.json(), })
+    return json({ "received": True, "message": request.json })
 
 
 @app.route('/runSynth', methods=['POST'])
@@ -43,7 +42,7 @@ async def post_runSynth(request):
         os.mkdir(pathFlattened)
         with open(f'{tmpdir}+/dataPDF.pdf', 'rw') as datafilePDF, open(f'{tmpdir}+/dataGT.json', 'rw') as datafileGT:
             #Del opp pdf-data og GT-data
-            jsonData = request.json()
+            jsonData = request.json
             datafilePDF.write(b64decode(jsonData["PDF"]))
             datafileGT.write(jsonData["GT"])
             pathPDF = tmpdir + '/dataPDF.pdf'
