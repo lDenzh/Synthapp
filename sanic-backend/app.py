@@ -44,8 +44,8 @@ async def post_runSynth(request):
         with open(f'{tmpdir}+/dataPDF.pdf', 'rw') as datafilePDF, open(f'{tmpdir}+/dataGT.json', 'rw') as datafileGT:
             #Del opp pdf-data og GT-data
             jsonData = request.json()
-            datafilePDF.write(b64decode(jsonData["pdf"]))
-            datafileGT.write(jsonData["ground_truth"])
+            datafilePDF.write(b64decode(jsonData["PDF"]))
+            datafileGT.write(jsonData["GT"])
             pathPDF = tmpdir + '/dataPDF.pdf'
             pathGT = tmpdir + '/dataGT.json'
             status = synthesize_document(pathPDF,pathGT,tmpdir,pathFlattened)
