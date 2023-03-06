@@ -14,7 +14,15 @@
   border: 4px solid rgb(117, 112, 112);
   color: #475467;
 }
+.input-container {
+  height: max-content;
+  
+}
 
+#inputfield {
+  height: 500px;
+
+}
 .button {
   padding: 12px;
   font-size: medium;
