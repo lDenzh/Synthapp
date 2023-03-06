@@ -1,12 +1,11 @@
 from sanic import Sanic
-from sanic.response import json as sanicjson, text 
+from sanic.response import json as sanicJSON, text 
 from sanic import text #vet ikke om trenger?
 from sanic_ext import Extend, cors
 from sanic_cors.extension import CORS
 
-import json
+import logging
 import tempfile
-import json
 from pathlib import Path
 from base64 import b64decode, b64encode
 from synthetic.pdf.parser import parse_pdf
@@ -26,15 +25,15 @@ async def hello(request):
 
 @app.route('/data', methods=['GET'])
 async def data(request):
-    return json({"message": "Hello from the backend-boi!"})
+    return sanicJSON({"message": "Hello from the backend-boi!"})
 
 
 @app.route('/posty', methods=['POST'])
 @cors(allow_methods="POST")
 async def post_json(request):
-    jsonmsg = json.loads(request)
-    tester = jsonmsg["GT"]
-    return sanicjson({ "received": True, "message": tester })
+
+    return sanicJSON({ "received": True, "message": request.json })
+ 
 
 
 @app.route('/runSynth', methods=['POST'])
@@ -44,15 +43,15 @@ async def post_runSynth(request):
     with tempfile.TemporaryDirectory(prefix='TemporaryDirectory_') as tmpdir:
         path_flattened = f'{tmpdir}/tmpdirFlattened'
         os.mkdir(path_flattened)
-        json_data = json.loads(request.json)
+        json_data = request.json
         pdf_path = Path(f'{tmpdir}/dataPDF.pdf')
         GT_path = Path(f'{tmpdir}/dataGT.json')
         pdf_path.write_bytes(b64decode(json_data["PDF"]))
-        GT_path.write_bytes(json_data["GT"])
+        pdf_path.write_text(json_data["GT"])
             
         status = synthesize_document(pdf_path,GT_path,tmpdir,path_flattened)
 
-        return json({ "received": True, "message": "its all gooooo"})
+        return sanicJSON({ "received": True, "message": "its all gooood in da hood"})
     
     
 
@@ -77,4 +76,3 @@ def synthesize_document(pdf_path:Path, ground_truth:Path, dest_dir:Path, temp_di
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)
 
-    

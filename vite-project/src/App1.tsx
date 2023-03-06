@@ -34,7 +34,7 @@ const DragDropFiles = () => {
             GT: updated
         };
 
-        const { data } = await axios.post("http://localhost:8000/posty", payload, {
+        const { data } = await axios.post("http://localhost:8000/runSynth", payload, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
