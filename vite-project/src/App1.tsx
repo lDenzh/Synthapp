@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import './App.css'
 import axios, { isAxiosError } from 'axios';
+import GTinput from "./GTinput";
 
 
 const DragDropFiles = () => {
@@ -26,8 +27,9 @@ const DragDropFiles = () => {
 
     async function Postman() {
         const myPDF = await toBase64(file)
-
-        const { data } = await axios.post("http://localhost:8000/runSynth", myPDF, {
+        
+        const message = "{PDF: " + myPDF + "}," + "{GT: " + updated +"}"
+        const { data } = await axios.post("http://localhost:8000/runSynth", message, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
@@ -41,6 +43,21 @@ const DragDropFiles = () => {
         Postman();
     }
 
+    const gtRef = useRef(null);
+    const [gt, setGt] = useState('')
+    const [updated, setUpdated] = useState(gt)
+    
+    const handleChange = (event) => {
+        setGt(event.target.value)
+    }
+
+    const handleGT = () => {
+        setUpdated(gt)
+        console.log(updated)
+    }
+
+    
+
     if (file) return (
         <div className="uploads">
             <ul>
@@ -50,7 +67,19 @@ const DragDropFiles = () => {
                 <button onClick={() => setFile(null)}>Cancel</button>
                 <button onClick={handleUpload}>Upload</button>
             </div>
+            <div className ="input-container">
+                <input 
+                    id="inputfield"
+                    ref={gtRef}
+                    type="text"
+                    onChange={handleChange}
+                    
+                />
+                <button onClick={handleGT}>Confirm Ground Truth</button>
+                <h1>the GT is: {updated}</h1>
+            </div>
         </div>
+        
     )
     return (
         <>
